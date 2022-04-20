@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <vector>
 #include <unordered_map>
 #include "LinkedList.h"
 
@@ -39,4 +40,66 @@ bool hasCycle(ListNode* head) {
     }
 
     return false;
+}
+
+ListNode* reverseList(ListNode* head) {
+    std::vector<int> vec;
+    ListNode* headCopy = head;
+    while (headCopy) {
+        vec.push_back(headCopy->val);
+        headCopy = headCopy->next;
+    }
+
+    headCopy = head;
+    while (headCopy) {
+        headCopy->val = vec.back();
+        vec.pop_back();
+        headCopy = headCopy->next;
+    }
+
+    return head;
+}
+
+ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+    ListNode* list1Copy = list1;
+    ListNode* list2Copy = list2;
+
+    while (list1Copy && list2Copy) {
+        if (list2Copy->val >= list1Copy->val) {
+            ListNode* list1Tracker = list1Copy->next;
+            ListNode* list2Tracker = list2Copy->next;
+
+            list1Copy->next = list2Copy;
+            list2Copy->next = nullptr;
+            list2Copy->next = list1Tracker;
+
+            list1Copy = list1Tracker;
+            list2Copy = list2Tracker;
+        }
+        else {
+            ListNode* list2Tracker = list2Copy->next;
+
+            list2Copy->next = nullptr;
+            list2Copy->next = list1Copy;
+
+            list1Copy = list1Copy->next;
+            list2Copy = list2Tracker;
+        }
+    }
+
+    return list1;
+}
+
+ListNode* sortList(ListNode* head) {
+    std::vector<int> vec;
+    ListNode* headCopy = head;
+
+    while (headCopy) {
+        vec.push_back(headCopy->val);
+        headCopy = headCopy->next;
+    }
+
+    std::vector<int> sortedVec;
+
+    // binary search
 }
