@@ -1,10 +1,8 @@
 #include <iostream>
+#include <vector>
 #include "LinkedList.h"
 
 int main() {
-    //1 2 4
-    //1 3 4
-
     ListNode node1(1);
     ListNode node2(2);
     ListNode node3(4);

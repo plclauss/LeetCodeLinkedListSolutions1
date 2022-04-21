@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <algorithm>
 #include "LinkedList.h"
 
 ListNode* deleteDuplicates(ListNode* head) {
@@ -61,33 +62,25 @@ ListNode* reverseList(ListNode* head) {
 }
 
 ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-    ListNode* list1Copy = list1;
-    ListNode* list2Copy = list2;
+    ListNode* copyL1 = list1;
 
-    while (list1Copy && list2Copy) {
-        if (list2Copy->val >= list1Copy->val) {
-            ListNode* list1Tracker = list1Copy->next;
-            ListNode* list2Tracker = list2Copy->next;
-
-            list1Copy->next = list2Copy;
-            list2Copy->next = nullptr;
-            list2Copy->next = list1Tracker;
-
-            list1Copy = list1Tracker;
-            list2Copy = list2Tracker;
-        }
-        else {
-            ListNode* list2Tracker = list2Copy->next;
-
-            list2Copy->next = nullptr;
-            list2Copy->next = list1Copy;
-
-            list1Copy = list1Copy->next;
-            list2Copy = list2Tracker;
-        }
+    while (copyL1) {
+        if (copyL1->next == nullptr)
+            break;
+        copyL1 = copyL1->next;
     }
 
-    return list1;
+    if (list1) {
+        copyL1->next = list2;
+        sortList(list1);
+        return list1;
+    }
+    else if (list2) {
+        sortList(list2);
+        return list2;
+    }
+    else
+        return nullptr;
 }
 
 ListNode* sortList(ListNode* head) {
@@ -99,7 +92,13 @@ ListNode* sortList(ListNode* head) {
         headCopy = headCopy->next;
     }
 
-    std::vector<int> sortedVec;
+    std::sort(vec.begin(), vec.end());
 
-    // binary search
+    headCopy = head;
+    for (auto& it : vec) {
+        headCopy->val = it;
+        headCopy = headCopy->next;
+    }
+
+    return head;
 }
